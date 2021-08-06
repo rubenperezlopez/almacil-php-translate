@@ -74,7 +74,7 @@ class Translate
     $gt = json_decode($this->callAPI('GET', 'http://traductor.almacil.com/api/?lng=' . urlencode($this->lang) . '&txt=' . urlencode($text), false));
     $this->translations->{$text} = $gt->traduccion;
 
-    $handle = fopen($this->file, "w");
+    $handle = fopen($this->getFileName(), "w");
     fwrite($handle, json_encode($this->translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
     return $this->translations->{$text};
