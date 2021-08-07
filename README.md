@@ -1,14 +1,16 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/rubenperezlopez/almacil-php-translate)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/rubenperezlopez/almacil-php-translate?label=last%20version)
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/almacil/php-translate)
+![GitHub](https://img.shields.io/github/license/rubenperezlopez/almacil-php-translate)
 # 🈳 Almacil PHP Translate
 
 This is a library written in PHP to internationalize websites and apps made with PHP.
 
----
+<br>
 
-> Do you want to contribute?<br>
-[![Donate 1€](https://img.shields.io/badge/Buy%20me%20a%20coffee-1%E2%82%AC-brightgreen?logo=buymeacoffee&logoColor=white&labelColor=grey
-)](https://www.paypal.com/paypalme/rubenperezlopez/1)
-
----
+*Do you want to contribute?*<br>
+[![Donate 1€](https://img.shields.io/badge/Buy%20me%20a%20coffee-1%E2%82%AC-brightgreen?logo=buymeacoffee&logoColor=white&labelColor=grey&style=for-the-badge
+)](https://www.paypal.com/paypalme/rubenperezlopez/1?target=_blank)
 
 ## Features
 - Translate from json files
@@ -63,11 +65,11 @@ We can include parameters in translations like this:
 echo '<p>' . t('hola-name', array('name' => 'Rubén')) . '</p>'; // <p>Hello Rubén!</p>
 ```
 
----
+<br>
 
-> Do you want to contribute?<br>
-[![Donate 1€](https://img.shields.io/badge/Buy%20me%20a%20coffee-1%E2%82%AC-brightgreen?logo=buymeacoffee&logoColor=white&labelColor=grey
-)](https://www.paypal.com/paypalme/rubenperezlopez/1)
+*Do you want to contribute?*<br>
+[![Donate 1€](https://img.shields.io/badge/Buy%20me%20a%20coffee-1%E2%82%AC-brightgreen?logo=buymeacoffee&logoColor=white&labelColor=grey&style=for-the-badge
+)](https://www.paypal.com/paypalme/rubenperezlopez/1?target=_blank)
 
 ---
 
