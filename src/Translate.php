@@ -17,13 +17,13 @@ namespace Almacil;
 
 class Translate
 {
-  private $path = __DIR__ . '/../i18n';
+  private $path = __DIR__ . '/../../../i18n';
   private $lang = 'en';
   private $findMissingTranslations = false;
 
   private $translations;
 
-  public function __construct($lang = 'en', $path = __DIR__ . '/../i18n', $findMissingTranslations = false)
+  public function __construct($lang = 'en', $path = __DIR__ . '/../../../i18n', $findMissingTranslations = false)
   {
     $this->path = implode('/', explode('//', $path . '/'));;
     $this->lang = $lang;
@@ -116,18 +116,15 @@ class Translate
           $url = sprintf("%s?%s", $url, http_build_query($data));
         }
     }
+
     // OPTIONS:
     curl_setopt($curl, CURLOPT_URL, $url);
-    $array_headers = array(
-      'Content-Type: application/json'
-    );
-    /*if ($headers) {
-            array_push($array_headers, $headers);
-        }*/
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+
     // EXECUTE:
     $result = curl_exec($curl);
+
     if (!$result) {
       die("Connection Failure");
     }
