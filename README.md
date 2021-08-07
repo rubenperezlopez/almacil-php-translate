@@ -2,16 +2,13 @@
 
 This is a library written in PHP to internationalize websites and apps made with PHP.
 
+---
 
-<div style="text-align:center;border-radius:10px;border:1px solid grey;padding:16px;">
-    Do you want to contribute? Buy me a coffee:
-    <br>
-    <a href="https://www.paypal.com/paypalme/rubenperezlopez/1" target="_blank" style="border:0;background-color:black;color:white;border-radius:6px;padding:6px;font-size:16px;text-decoration:none;">
-    <span style="font-size:22px;position:relative;top:2px;">☕️</span>
-    <span style="margin:0 6px;">DONATE 1€</span>
-    <span style="font-size:18px;position:relative;top:2px;">🙏</span>
-    </a>
-</div>
+> Do you want to contribute?<br>
+[![Donate 1€](https://img.shields.io/badge/Buy%20me%20a%20coffee-1%E2%82%AC-brightgreen?logo=buymeacoffee&logoColor=white&labelColor=grey
+)](https://www.paypal.com/paypalme/rubenperezlopez/1)
+
+---
 
 ## Features
 - Translate from json files
@@ -66,17 +63,12 @@ We can include parameters in translations like this:
 echo '<p>' . t('hola-name', array('name' => 'Rubén')) . '</p>'; // <p>Hello Rubén!</p>
 ```
 
-<br>
-<div style="text-align:center;border-radius:10px;border:1px solid grey;padding:16px;">
-    Do you want to contribute? Buy me a coffee:
-    <br>
-    <a href="https://www.paypal.com/paypalme/rubenperezlopez/1" target="_blank" style="border:0;background-color:black;color:white;border-radius:6px;padding:6px;font-size:16px;text-decoration:none;">
-    <span style="font-size:22px;position:relative;top:2px;">☕️</span>
-    <span style="margin:0 6px;">DONATE 1€</span>
-    <span style="font-size:18px;position:relative;top:2px;">🙏</span>
-    </a>
-</div>
+---
 
-<div style="text-align:center;color:grey;font-size:12px;padding:6px;">
-    Made with ❤️ by developer for developers
-</div>
+> Do you want to contribute?<br>
+[![Donate 1€](https://img.shields.io/badge/Buy%20me%20a%20coffee-1%E2%82%AC-brightgreen?logo=buymeacoffee&logoColor=white&labelColor=grey
+)](https://www.paypal.com/paypalme/rubenperezlopez/1)
+
+---
+
+Made with ❤️ by developer for developers
