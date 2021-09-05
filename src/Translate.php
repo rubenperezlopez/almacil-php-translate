@@ -17,13 +17,14 @@ namespace Almacil;
 
 class Translate
 {
-  private $path = __DIR__ . '/../../../i18n';
+  private $path = __DIR__ . '/../i18n';
   private $lang = 'en';
   private $findMissingTranslations = false;
 
   private $translations;
+  private $alternativeTranslations;
 
-  public function __construct($lang = 'en', $path = __DIR__ . '/../../../i18n', $findMissingTranslations = false)
+  public function __construct($lang = 'en', $path = __DIR__ . '/../i18n', $findMissingTranslations = false, $alternativeLang = 'en')
   {
     $this->path = implode('/', explode('//', $path . '/'));;
     $this->lang = $lang;
@@ -33,7 +34,11 @@ class Translate
       mkdir($path);
     }
 
-    $this->translations = $this->getFile($this->getFileName());
+    $this->translations = new \stdClass();
+    $this->getPath($this->path, $lang, 'translations');
+
+    $this->alternativeTranslations = new \stdClass();
+    $this->getPath($this->path, $alternativeLang, 'alternativeTranslations');
   }
 
   public function t($text, $params = null)
@@ -62,21 +67,44 @@ class Translate
     return str_replace("'", "&#39;", $resp);
   }
 
-  public function getFileName()
+  private function getPath($path, $lang, $varName = 'translations', $prefix = '') {
+
+    if (file_exists($path . $lang . '.json')) {
+      $translations = $this->getFile($path . $lang . '.json');
+      $keys = array_keys((array)$translations);
+      for ($k = 0; $k < count($keys); $k++) {
+        $this->{$varName}->{$prefix.$keys[$k]} = $translations->{$keys[$k]};
+      }
+    }
+
+    // Modules
+    $files = scandir($path);
+    for ($i = 0; $i < count($files); $i++) {
+
+      if (is_dir($path . $files[$i]) && $files[$i] != '.' && $files[$i] != '..') {
+        $this->getPath($path . $files[$i] . '/', $lang, $varName, $prefix . $files[$i] . '.');
+      }
+
+    }
+
+  }
+
+  public function getFileName($path)
   {
-    return $this->path . $this->lang . '.json';
+    return $path . $this->lang . '.json';
   }
 
   private function missingTranslation($text)
   {
-    $this->translations = $this->getFile($this->getFileName());
+    $translations = $this->getFile($this->getFileName($this->path));
 
     $gt = json_decode($this->callAPI('GET', 'http://traductor.almacil.com/api/?lng=' . urlencode($this->lang) . '&txt=' . urlencode($text), false));
+    $translations->{$text} = $gt->traduccion;
+
+    $handle = fopen($this->getFileName($this->path), "w");
+    fwrite($handle, json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
     $this->translations->{$text} = $gt->traduccion;
-
-    $handle = fopen($this->getFileName(), "w");
-    fwrite($handle, json_encode($this->translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
     return $this->translations->{$text};
   }
 
