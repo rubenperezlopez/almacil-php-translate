@@ -19,7 +19,7 @@ This is a library written in PHP to internationalize websites and apps made with
 ## Installation
 Installation is possible using Composer
 ```bash
-composer requiere almacil/php-translate
+composer require almacil/php-translate
 ```
 ## Usage
 Create an instance of \Almacil\Translate:

@@ -67,13 +67,14 @@ class Translate
     return str_replace("'", "&#39;", $resp);
   }
 
-  private function getPath($path, $lang, $varName = 'translations', $prefix = '') {
+  private function getPath($path, $lang, $varName = 'translations', $prefix = '')
+  {
 
     if (file_exists($path . $lang . '.json')) {
       $translations = $this->getFile($path . $lang . '.json');
       $keys = array_keys((array)$translations);
       for ($k = 0; $k < count($keys); $k++) {
-        $this->{$varName}->{$prefix.$keys[$k]} = $translations->{$keys[$k]};
+        $this->{$varName}->{$prefix . $keys[$k]} = $translations->{$keys[$k]};
       }
     }
 
@@ -84,9 +85,7 @@ class Translate
       if (is_dir($path . $files[$i]) && $files[$i] != '.' && $files[$i] != '..') {
         $this->getPath($path . $files[$i] . '/', $lang, $varName, $prefix . $files[$i] . '.');
       }
-
     }
-
   }
 
   public function getFileName($path)
