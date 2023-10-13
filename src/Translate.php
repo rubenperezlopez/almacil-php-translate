@@ -7,9 +7,9 @@
  * @category   Translate
  * @author     Rubén Pérez López
  * @date       30/04/2018
- * @copyright  2018 Rubén Pérez López
+ * @copyright  2023 Rubén Pérez López
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    03/08/2021 v4.0
+ * @version    13/10/2023 v5.0
  * @link       www.rubenperezlopez.com
  */
 
@@ -20,15 +20,17 @@ class Translate
   private $path = __DIR__ . '/../i18n';
   private $lang = 'en';
   private $findMissingTranslations = false;
+  private $isInContextEditorActivated = false;
 
   private $translations;
   private $alternativeTranslations;
 
-  public function __construct($lang = 'en', $path = __DIR__ . '/../i18n', $findMissingTranslations = false, $alternativeLang = 'en')
+  public function __construct($lang = 'en', $path = __DIR__ . '/../i18n', $findMissingTranslations = false, $isInContextEditorActivated = false, $alternativeLang = 'en')
   {
     $this->path = implode('/', explode('//', $path . '/'));;
     $this->lang = $lang;
     $this->findMissingTranslations = $findMissingTranslations;
+    $this->isInContextEditorActivated = $isInContextEditorActivated;
 
     if (!file_exists($path)) {
       mkdir($path);
@@ -41,21 +43,46 @@ class Translate
     $this->getPath($this->path, $alternativeLang, 'alternativeTranslations');
   }
 
-  public function t($text, $params = null)
+  public function setInContextEditor($value)
   {
-    return $this->get($text, $params);
+    $this->isInContextEditorActivated = $value;
   }
 
-  public function get($text, $params = null)
+  public function t($key, $params = null)
   {
-    if ($this->translations->{$text} == '') {
+    return $this->get($key, $params);
+  }
+
+  public function get($key, $params = null)
+  {
+    $modulo = substr($key, 0, strpos($key, '.'));
+    $modulos = [
+      "common",
+      "iframe",
+      "canal",
+      "entradas",
+      "evento",
+      "explore",
+      "form",
+      "listas",
+      "micuenta",
+      "mistickets",
+      "reservas"
+    ];
+    if (in_array($modulo, $modulos)) {
+      $key = substr($key, strpos($key, '.') + 1);
+    }
+    if ($this->isInContextEditorActivated) {
+      return '{{__phrase_' . $key . '__}}';
+    }
+    if ($this->translations->{$key} == '') {
       if ($this->findMissingTranslations) {
-        $resp = $this->missingTranslation($text);
+        $resp = $this->missingTranslation($key);
       } else {
-        $resp = $text;
+        $resp = $key;
       }
     } else {
-      $resp = $this->translations->{$text};
+      $resp = $this->translations->{$key};
       if (isset($params)) {
         foreach ($params as $clave => $valor) {
           if (isset($valor) && isset($clave)) {
@@ -64,7 +91,9 @@ class Translate
         }
       }
     }
-    return str_replace("'", "&#39;", $resp);
+
+    $text = str_replace("'", "&#39;", $resp);
+    return $text;
   }
 
   private function getPath($path, $lang, $varName = 'translations', $prefix = '')
@@ -93,18 +122,18 @@ class Translate
     return $path . $this->lang . '.json';
   }
 
-  private function missingTranslation($text)
+  private function missingTranslation($key)
   {
     $translations = $this->getFile($this->getFileName($this->path));
 
-    $gt = json_decode($this->callAPI('GET', 'http://traductor.almacil.com/api/?lng=' . urlencode($this->lang) . '&txt=' . urlencode($text), false));
-    $translations->{$text} = $gt->traduccion;
+    $gt = json_decode($this->callAPI('GET', 'http://traductor.almacil.com/api/?lng=' . urlencode($this->lang) . '&txt=' . urlencode($key), false));
+    $translations->{$key} = $gt->traduccion;
 
     $handle = fopen($this->getFileName($this->path), "w");
     fwrite($handle, json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
-    $this->translations->{$text} = $gt->traduccion;
-    return $this->translations->{$text};
+    $this->translations->{$key} = $gt->traduccion;
+    return $this->translations->{$key};
   }
 
 
